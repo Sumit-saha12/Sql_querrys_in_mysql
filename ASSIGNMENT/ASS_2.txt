@@ -1,0 +1,136 @@
+TASK 1:
+mysql> alter table employee modify Depid char(6) not null;
+Query OK, 11 rows affected (0.13 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMPLOYEE;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Eid           | varchar(20) | NO   | PRI | NULL    |       |
+| Name          | varchar(20) | NO   |     | NULL    |       |
+| Depid         | char(6)     | NO   |     | NULL    |       |
+| Qualification | varchar(20) | YES  |     | NULL    |       |
+| Age           | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+TASK 2:
+
+INSERT INTO EMPLOYEE VALUE('EMP111','SOUMYAJIT KUNDU','DEP003','HS',22);
+INSERT INTO EMPLOYEE VALUE('EMP112','PRASUN DAS','DEP002','GRADUATED',35);
+INSERT INTO EMPLOYEE VALUE('EMP113','RITAM BARUA','DEP001','HS',26);
+INSERT INTO EMPLOYEE VALUE('EMP114','SOUVIK SARKAR','DEP001','HS',39);
+INSERT INTO EMPLOYEE VALUE('EMP115','MITHUN SAHA','DEP003','GRADUATED',25);
+
+mysql> SELECT * FROM EMPLOYEE;
++--------+--------------------+--------+---------------+------+
+| Eid    | Name               | Depid  | Qualification | Age  |
++--------+--------------------+--------+---------------+------+
+| EMP100 | SUMIT SAHA         | DEP001 | GRADUATE      |   20 |
+| EMP101 | RAHUL KUNDU        | DEP002 | GRADUATE      |   22 |
+| EMP102 | HIMANGSHU GHOSH    | DEP003 | HS            |   23 |
+| EMP103 | HIMESH KUNDU       | DEP004 | MASTER        |   19 |
+| EMP104 | SAJAL HALDER       | DEP002 | GRADUATE      |   25 |
+| EMP105 | SOURAV SAHA        | DEP001 | GRADUATE      |   22 |
+| EMP106 | HIROCK BISWAS      | DEP004 | HS            |   21 |
+| EMP107 | ABHINABA SEN       | DEP003 | GRADUATE      |   28 |
+| EMP108 | ABHISEKH MUKHERJEE | DEP001 | MASTER        |   31 |
+| EMP109 | SOUVIK SAHA        | DEP003 | GRADUATE      |   45 |
+| EMP110 | AVIK GOSWAMI       | DEP002 | HS            |   26 |
+| EMP111 | SOUMYAJIT KUNDU    | DEP003 | HS            |   22 |
+| EMP112 | PRASUN DAS         | DEP002 | GRADUATED     |   35 |
+| EMP113 | RITAM BARUA        | DEP001 | HS            |   26 |
+| EMP114 | SOUVIK SARKAR      | DEP001 | HS            |   39 |
+| EMP115 | MITHUN SAHA        | DEP003 | GRADUATED     |   25 |
++--------+--------------------+--------+---------------+------+
+16 rows in set (0.00 sec)
+
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP111',11000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP112',1200);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP113',15000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP114',5550);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP115',6500);
+
+mysql> select * from salary;
++--------+----------+---------+---------+--------+--------------+
+| Eid    | Basic    | DA      | HRA     | Bonus  | Total_Salary |
++--------+----------+---------+---------+--------+--------------+
+| EMP100 |  4000.00 | 1000.00 |  320.00 | 200.00 |      5520.00 |
+| EMP101 |  5000.00 | 1250.00 |  400.00 | 250.00 |      6900.00 |
+| EMP102 |  6000.00 | 1500.00 |  480.00 | 300.00 |      8280.00 |
+| EMP103 |  7000.00 | 1750.00 |  560.00 | 350.00 |      9660.00 |
+| EMP104 |  8000.00 | 2000.00 |  640.00 | 400.00 |     11040.00 |
+| EMP105 |  9000.00 | 2250.00 |  720.00 | 450.00 |     12420.00 |
+| EMP106 |  4500.00 | 1125.00 |  360.00 | 225.00 |      6210.00 |
+| EMP107 |  5500.00 | 1375.00 |  440.00 | 275.00 |      7590.00 |
+| EMP108 |  6500.00 | 1625.00 |  520.00 | 325.00 |      8970.00 |
+| EMP109 |  1500.00 |  375.00 |  120.00 |  75.00 |      2070.00 |
+| EMP110 | 10000.00 | 2500.00 |  800.00 | 500.00 |     13800.00 |
+| EMP111 | 11000.00 | 2750.00 |  880.00 | 550.00 |     15180.00 |
+| EMP112 |  1200.00 |  300.00 |   96.00 |  60.00 |      1656.00 |
+| EMP113 | 15000.00 | 3750.00 | 1200.00 | 750.00 |     20700.00 |
+| EMP114 |  5550.00 | 1387.50 |  444.00 | 277.50 |      7659.00 |
+| EMP115 |  6500.00 | 1625.00 |  520.00 | 325.00 |      8970.00 |
++--------+----------+---------+---------+--------+--------------+
+16 rows in set (0.00 sec)
+
+QUERY 1:
+
+mysql> SELECT Name "OLDEST EMPLOYEE" from EMPLOYEE WHERE Age IN(SELECT MAX(Age) FROM EMPLOYEE);
++-----------------+
+| OLDEST EMPLOYEE |
++-----------------+
+| SOUVIK SAHA     |
++-----------------+
+1 row in set (0.00 sec)
+
+QUERY 2:
+
+mysql> SELECT NAME,AGE,QUALIFICATION FROM EMPLOYEE WHERE DEPID='DEP003';
++-----------------+------+---------------+
+| NAME            | AGE  | QUALIFICATION |
++-----------------+------+---------------+
+| HIMANGSHU GHOSH |   23 | HS            |
+| ABHINABA SEN    |   28 | GRADUATE      |
+| SOUVIK SAHA     |   45 | GRADUATE      |
+| SOUMYAJIT KUNDU |   22 | HS            |
+| MITHUN SAHA     |   25 | GRADUATED     |
++-----------------+------+---------------+
+5 rows in set (0.00 sec)
+
+QUERY 3:
+
+mysql> SELECT AVG(TOTAL_SALARY) "AVERAGE SALARY" FROM SALARY;
++----------------+
+| AVERAGE SALARY |
++----------------+
+|    9164.062500 |
++----------------+
+1 row in set (0.01 sec)
+
+
+QUERY 4:
+
+mysql> SELECT EID FROM SALARY WHERE TOTAL_SALARY>(SELECT AVG(TOTAL_SALARY) FROM SALARY);
++--------+
+| EID    |
++--------+
+| EMP103 |
+| EMP104 |
+| EMP105 |
+| EMP110 |
+| EMP111 |
+| EMP113 |
++--------+
+6 rows in set (0.00 sec)
+
+QUERY 5:
+
+mysql> SELECT AVG(TOTAL_SALARY) FROM SALARY WHERE EID IN (SELECT EID FROM EMPLOYEE WHERE DEPID='DEP001');
++-------------------+
+| AVG(TOTAL_SALARY) |
++-------------------+
+|      11053.800000 |
++-------------------+
+1 row in set (0.01 sec)

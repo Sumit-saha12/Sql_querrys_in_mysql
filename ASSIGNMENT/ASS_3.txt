@@ -1,0 +1,166 @@
+mysql>  create table department
+    ->    (
+    ->    Depid varchar(6) primary key check(Depid like 'Dep%'),
+    ->    Dep_desc varchar(20) NOT NULL,
+    ->    hod varchar(6),
+    ->    location varchar(20)
+    ->    );
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> desc department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Depid    | varchar(6)  | NO   | PRI | NULL    |       |
+| Dep_desc | varchar(20) | NO   |     | NULL    |       |
+| hod      | varchar(6)  | YES  |     | NULL    |       |
+| location | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.12 sec)
+
+insert into department values('DEP001','Administration','EMP100','Kolkata');
+insert into department values('DEP002','Sales','EMP104','Howrah');
+insert into department values('DEP003','IT','EMP107','Kolkata');
+insert into department values('DEP004','Marketing','EMP106','Hooghly');
+
+mysql> select * from department;
++--------+----------------+--------+----------+
+| Depid  | Dep_desc       | hod    | location |
++--------+----------------+--------+----------+
+| DEP001 | Administration | EMP100 | Kolkata  |
+| DEP002 | Sales          | EMP104 | Howrah   |
+| DEP003 | IT             | EMP107 | Kolkata  |
+| DEP004 | Marketing      | EMP106 | Hooghly  |
++--------+----------------+--------+----------+
+4 rows in set (0.00 sec)
+
+
+mysql> alter table DEPARTMENT add NOE int(10);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from DEPARTMENT;
++--------+----------------+--------+----------+------+
+| Depid  | Dep_desc       | hod    | location | NOE  |
++--------+----------------+--------+----------+------+
+| DEP001 | Administration | EMP100 | Kolkata  | NULL |
+| DEP002 | Sales          | EMP104 | Howrah   | NULL |
+| DEP003 | IT             | EMP107 | Kolkata  | NULL |
+| DEP004 | Marketing      | EMP106 | Hooghly  | NULL |
++--------+----------------+--------+----------+------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE DEPARTMENT SET NOE=(SELECT COUNT(EID) FROM EMPLOYEE WHERE DEPID='DEP001') WHERE DEPID='DEP001';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE DEPARTMENT SET NOE=(SELECT COUNT(EID) FROM EMPLOYEE WHERE DEPID='DEP002') WHERE DEPID='DEP002';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE DEPARTMENT SET NOE=(SELECT COUNT(EID) FROM EMPLOYEE WHERE DEPID='DEP003') WHERE DEPID='DEP003';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE DEPARTMENT SET NOE=(SELECT COUNT(EID) FROM EMPLOYEE WHERE DEPID='DEP004') WHERE DEPID='DEP004';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+ysql> SELECT * FROM DEPARTMENT;
++--------+----------------+--------+----------+------+
+| Depid  | Dep_desc       | hod    | location | NOE  |
++--------+----------------+--------+----------+------+
+| DEP001 | Administration | EMP100 | Kolkata  |    5 |
+| DEP002 | Sales          | EMP104 | Howrah   |    4 |
+| DEP003 | IT             | EMP107 | Kolkata  |    5 |
+| DEP004 | Marketing      | EMP106 | Hooghly  |    2 |
++--------+----------------+--------+----------+------+
+4 rows in set (0.00 sec)
+
+QUERY 1:
+
+mysql> SELECT NAME,QUALIFICATION FROM EMPLOYEE WHERE EID IN (SELECT HOD FROM DEPARTMENT WHERE LOCATION='KOLKATA');
++--------------+---------------+
+| NAME         | QUALIFICATION |
++--------------+---------------+
+| SUMIT SAHA   | GRADUATE      |
+| ABHINABA SEN | GRADUATE      |
++--------------+---------------+
+2 rows in set (0.00 sec)
+
+QUERY 2:
+
+mysql> SELECT EID,NAME,DEPID,QUALIFICATION FROM EMPLOYEE WHERE AGE < (SELECT AVG(AGE) FROM EMPLOYEE);
++--------+-----------------+--------+---------------+
+| EID    | NAME            | DEPID  | QUALIFICATION |
++--------+-----------------+--------+---------------+
+| EMP100 | SUMIT SAHA      | DEP001 | GRADUATE      |
+| EMP101 | RAHUL KUNDU     | DEP002 | GRADUATE      |
+| EMP102 | HIMANGSHU GHOSH | DEP003 | HS            |
+| EMP103 | HIMESH KUNDU    | DEP004 | MASTER        |
+| EMP104 | SAJAL HALDER    | DEP002 | GRADUATE      |
+| EMP105 | SOURAV SAHA     | DEP001 | GRADUATE      |
+| EMP106 | HIROCK BISWAS   | DEP004 | HS            |
+| EMP110 | AVIK GOSWAMI    | DEP002 | HS            |
+| EMP111 | SOUMYAJIT KUNDU | DEP003 | HS            |
+| EMP113 | RITAM BARUA     | DEP001 | HS            |
+| EMP115 | MITHUN SAHA     | DEP003 | GRADUATED     |
++--------+-----------------+--------+---------------+
+11 rows in set (0.00 sec)
+
+QUERY 3:
+
+select name,dep_desc,total_salary from department d,employee e,salary s where e.eid=s.eid and e.depid=d.depid and e.eid=d.hod;
++---------------+----------------+--------------+
+| name          | dep_desc       | total_salary |
++---------------+----------------+--------------+
+| SUMIT SAHA    | Administration |      5520.00 |
+| SAJAL HALDER  | Sales          |     11040.00 |
+| ABHINABA SEN  | IT             |      7590.00 |
+| HIROCK BISWAS | Marketing      |      6210.00 |
++---------------+----------------+--------------+
+4 rows in set (0.01 sec)
+
+QUERY 4:
+
+mysql> SELECT * FROM EMPLOYEE E,SALARY S WHERE E.EID=S.EID AND TOTAL_SALARY=(SELECT MAX(TOTAL_SALARY) FROM DEPARTMENT D,SALARY S WHERE S.EID=D.HOD AND EID IN(SELECT HOD FROM DEPARTMENT));
++--------+--------------+--------+---------------+------+--------+---------+---------+--------+--------+--------------+
+| Eid    | Name         | Depid  | Qualification | Age  | Eid    | Basic   | DA      | HRA    | Bonus  | Total_Salary |
++--------+--------------+--------+---------------+------+--------+---------+---------+--------+--------+--------------+
+| EMP104 | SAJAL HALDER | DEP002 | GRADUATE      |   25 | EMP104 | 8000.00 | 2000.00 | 640.00 | 400.00 |     11040.00 |
++--------+--------------+--------+---------------+------+--------+---------+---------+--------+--------+--------------+
+1 row in set (0.15 sec)
+
+
+QUERY 5:
+
+mysql> update department set hod='EMP109' where depid='dep003';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from department;
++--------+----------------+--------+----------+------+
+| Depid  | Dep_desc       | hod    | location | NOE  |
++--------+----------------+--------+----------+------+
+| DEP001 | Administration | EMP100 | Kolkata  |    5 |
+| DEP002 | Sales          | EMP104 | Howrah   |    4 |
+| DEP003 | IT             | EMP109 | Kolkata  |    5 |
+| DEP004 | Marketing      | EMP106 | Hooghly  |    2 |
++--------+----------------+--------+----------+------+
+4 rows in set (0.00 sec)
+
+QUERY 6:
+
+mysql> select e.depid,d.dep_desc,d.location,d.hod,avg(s.total_salary) from employee e, department d, salary s where e.eid=s.eid and d.depid=e.depid group by e.depid;
++--------+----------------+----------+--------+---------------------+
+| depid  | dep_desc       | location | hod    | avg(s.total_salary) |
++--------+----------------+----------+--------+---------------------+
+| DEP001 | Administration | Kolkata  | EMP100 |        11053.800000 |
+| DEP002 | Sales          | Howrah   | EMP104 |         8349.000000 |
+| DEP003 | IT             | Kolkata  | EMP109 |         8418.000000 |
+| DEP004 | Marketing      | Hooghly  | EMP106 |         7935.000000 |
++--------+----------------+----------+--------+---------------------+
+4 rows in set (0.02 sec)
+
+
+

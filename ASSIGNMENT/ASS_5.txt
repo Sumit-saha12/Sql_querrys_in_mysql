@@ -1,0 +1,150 @@
+mysql> SELECT * FROM PERSONAL;
++--------+-------------------+------------+--------------+---------+
+| empno  | name              | dob        | native_place | hobby   |
++--------+-------------------+------------+--------------+---------+
+| EMP100 | SUMIT SAHA        | 1980-10-12 | SHYAMNAGAR   | SPORTS  |
+| EMP101 | ABHINABA SEN      | 1978-12-10 | ICHAPORE     | TEACHER |
+| EMP102 | RAHUL SHARMA      | 1970-05-04 | BARUIPUR     | WRITER  |
+| EMP103 | AVIK BISWAS       | 1975-04-12 | BARRACKPORE  | TEACHER |
+| EMP104 | SUPARNA DAS       | 1972-06-18 | KALYANI      | SPORTS  |
+| EMP105 | SRIPORNA BISWAS   | 1973-03-01 | SHYAMNAGAR   | SPORTS  |
+| EMP106 | ANINDITA MAJUMDER | 1974-09-29 | KOLKATA      | SPORTS  |
+| EMP107 | SOUVIK DAS        | 1975-12-31 | DUM DUM      | WRITER  |
+| EMP108 | DAVID             | 1976-12-01 | SODEPUR      | COOKING |
+| EMP109 | SUMIT GHOSH       | 1977-04-23 | CHANDANNAGAR | COOKING |
+| EMP110 | RIK DAS           | 1978-02-02 | BELGHARIA    | COOKING |
+| EMP111 | RODDUR MITRA      | 1979-06-29 | KALYANI      | SPORTS  |
+| EMP112 | SAJAL HALDER      | 1980-01-10 | KANKINARA    | TEACHER |
+| EMP113 | SOURAV GHOSH      | 1981-02-19 | BARUIPUR     | WRITER  |
+| EMP114 | SUBHRANIL SARKAR  | 1982-03-22 | SHYAMNAGAR   | COOKING |
++--------+-------------------+------------+--------------+---------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++--------+------------------+----------+------------+
+| depid  | ddesc            | area     | estddate   |
++--------+------------------+----------+------------+
+| DEP100 | IT               | KOLKATA  | 1905-10-01 |
+| DEP101 | CUSTOMER SUPPORT | HOWRAH   | 1907-01-02 |
+| DEP102 | MANAGEMENT       | HOOGHLY  | 1906-05-12 |
+| DEP103 | SALES            | BARUIPUR | 1909-12-08 |
+| DEP104 | MARKETING        | KALYANI  | 1927-04-29 |
++--------+------------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM JOB;
++--------+------------+--------+------------+--------+
+| EMPNO  | APP_DATE   | SALARY | RETD_DATE  | DEPT   |
++--------+------------+--------+------------+--------+
+| EMP100 | 2002-12-10 |   9000 | 2030-01-01 | DEP100 |
+| EMP101 | 2000-12-29 |   5000 | 2032-02-01 | DEP101 |
+| EMP102 | 2001-05-14 |   8000 | 2031-03-01 | DEP102 |
+| EMP103 | 2002-05-16 |   7000 | 2030-04-10 | DEP103 |
+| EMP104 | 2003-06-09 |  10000 | 2030-03-28 | DEP104 |
+| EMP105 | 2001-06-09 |   9500 | 2030-04-21 | DEP100 |
+| EMP106 | 2010-05-17 |   8500 | 2031-01-11 | DEP101 |
+| EMP107 | 2000-01-02 |   8700 | 2032-01-21 | DEP102 |
+| EMP108 | 2001-09-18 |   8900 | 2032-01-31 | DEP103 |
+| EMP109 | 2002-10-12 |   5600 | 2030-01-01 | DEP104 |
+| EMP110 | 2003-04-08 |   9800 | 2031-05-01 | DEP100 |
+| EMP111 | 2001-02-27 |   9990 | 2050-06-01 | DEP102 |
+| EMP112 | 2000-06-24 |   3000 | 2032-07-01 | DEP103 |
+| EMP113 | 2002-12-29 |   4000 | 2032-09-01 | DEP101 |
+| EMP114 | 2002-07-29 |   5500 | 2033-10-01 | DEP104 |
++--------+------------+--------+------------+--------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT * FROM HOD;
++--------+--------+
+| DEPID  | HEAD   |
++--------+--------+
+| DEP100 | EMP105 |
+| DEP101 | EMP113 |
+| DEP102 | EMP102 |
+| DEP103 | EMP108 |
+| DEP104 | EMP114 |
++--------+--------+
+5 rows in set (0.00 sec)
+
+QUERY 1:
+
+mysql> SELECT COUNT(EMPNO) "EMPLOYEE SHALL RETIRE" FROM JOB WHERE 2022-YEAR(APP_DATE)>=20;
++-----------------------+
+| EMPLOYEE SHALL RETIRE |
++-----------------------+
+|                    13 |
++-----------------------+
+1 row in set (0.00 sec)
+
+QUERY 2:
+
+mysql> SELECT NAME,DOB FROM PERSONAL P,JOB J WHERE P.EMPNO=J.EMPNO AND 2022-YEAR(APP_DATE)>17;
++------------------+------------+
+| NAME             | DOB        |
++------------------+------------+
+| SUMIT SAHA       | 1980-10-12 |
+| ABHINABA SEN     | 1978-12-10 |
+| RAHUL SHARMA     | 1970-05-04 |
+| AVIK BISWAS      | 1975-04-12 |
+| SUPARNA DAS      | 1972-06-18 |
+| SRIPORNA BISWAS  | 1973-03-01 |
+| SOUVIK DAS       | 1975-12-31 |
+| PRASUN SAHA      | 1976-12-01 |
+| SUMIT GHOSH      | 1977-04-23 |
+| RIK DAS          | 1978-02-02 |
+| RODDUR MITRA     | 1979-06-29 |
+| SAJAL HALDER     | 1980-01-10 |
+| SOURAV GHOSH     | 1981-02-19 |
+| SUBHRANIL SARKAR | 1982-03-22 |
++------------------+------------+
+14 rows in set (0.01 sec)
+
+QUERY 3:
+
+mysql> SELECT APP_DATE,NATIVE_PLACE FROM PERSONAL P,JOB J WHERE J.EMPNO=P.EMPNO AND (P.NAME LIKE 'A%' OR P.NAME LIKE '%D');
++------------+--------------+
+| APP_DATE   | NATIVE_PLACE |
++------------+--------------+
+| 2000-12-29 | ICHAPORE     |
+| 2002-05-16 | BARRACKPORE  |
+| 2010-05-07 | KOLKATA      |
+| 2001-09-18 | SODEPUR      |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+
+QUERY 4:
+
+mysql> SELECT J.EMPNO,NAME,HOBBY,SALARY FROM PERSONAL P,JOB J WHERE J.EMPNO=P.EMPNO ORDER BY SALARY DESC;
++--------+-------------------+---------+--------+
+| EMPNO  | NAME              | HOBBY   | SALARY |
++--------+-------------------+---------+--------+
+| EMP104 | SUPARNA DAS       | SPORTS  |  10000 |
+| EMP111 | RODDUR MITRA      | SPORTS  |   9990 |
+| EMP110 | RIK DAS           | COOKING |   9800 |
+| EMP105 | SRIPORNA BISWAS   | SPORTS  |   9500 |
+| EMP100 | SUMIT SAHA        | SPORTS  |   9000 |
+| EMP108 | DAVID             | COOKING |   8900 |
+| EMP107 | SOUVIK DAS        | WRITER  |   8700 |
+| EMP106 | ANINDITA MAJUMDER | SPORTS  |   8500 |
+| EMP102 | RAHUL SHARMA      | WRITER  |   8000 |
+| EMP103 | AVIK BISWAS       | TEACHER |   7000 |
+| EMP109 | SUMIT GHOSH       | COOKING |   5600 |
+| EMP114 | SUBHRANIL SARKAR  | COOKING |   5500 |
+| EMP101 | ABHINABA SEN      | TEACHER |   5000 |
+| EMP113 | SOURAV GHOSH      | WRITER  |   4000 |
+| EMP112 | SAJAL HALDER      | TEACHER |   3000 |
++--------+-------------------+---------+--------+
+15 rows in set (0.04 sec)
+
+QUERY 5:
+
+mysql> SELECT SUM(SALARY)*0.10 'ADDITIONAL BURDEN' FROM JOB J,PERSONAL P WHERE P.EMPNO=J.EMPNO AND HOBBY='SPORTS';
++-------------------+
+| ADDITIONAL BURDEN |
++-------------------+
+|           4699.00 |
++-------------------+
+1 row in set (0.00 sec)
+
+

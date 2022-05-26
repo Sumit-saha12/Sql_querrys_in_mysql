@@ -1,0 +1,154 @@
+mysql> CREATE TABLE EMPLOYEE
+         (
+         Eid VARCHAR(20) PRIMARY KEY CHECK(Eid LIKE 'EMP%'),
+         Name VARCHAR(20) NOT NULL,
+         Depid VARCHAR(20) NOT NULL,
+         Qualification VARCHAR(20),
+         Age int(3),
+         CHECK (Age>18 AND Age<60)
+         );
+Query OK, 0 rows affected, 1 warning (0.19 sec)
+
+mysql> desc employee;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Eid           | varchar(20) | NO   | PRI | NULL    |       |
+| Name          | varchar(20) | NO   |     | NULL    |       |
+| Depid         | varchar(20) | NO   |     | NULL    |       |
+| Qualification | varchar(20) | YES  |     | NULL    |       |
+| Age           | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql>  CREATE TABLE SALARY
+    ->     (
+    ->      Eid VARCHAR(20) PRIMARY KEY CHECK(Eid LIKE 'EMP%'),
+    ->     Basic DECIMAL(20,2) ,
+    ->     DA DECIMAL(20,2) DEFAULT(Basic*(25/100)),
+    ->     HRA DECIMAL(20,2) DEFAULT(Basic*(8/100)),
+    ->     Bonus DECIMAL(20,2) DEFAULT(Basic*(5/100))
+    ->     );
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> desc salary;
++-------+---------------+------+-----+------------------------+-------------------+
+| Field | Type          | Null | Key | Default                | Extra             |
++-------+---------------+------+-----+------------------------+-------------------+
+| Eid   | varchar(20)   | NO   | PRI | NULL                   |                   |
+| Basic | decimal(20,2) | YES  |     | NULL                   |                   |
+| DA    | decimal(20,2) | YES  |     | (`Basic` * (25 / 100)) | DEFAULT_GENERATED |
+| HRA   | decimal(20,2) | YES  |     | (`Basic` * (8 / 100))  | DEFAULT_GENERATED |
+| Bonus | decimal(20,2) | YES  |     | (`Basic` * (5 / 100))  | DEFAULT_GENERATED |
++-------+---------------+------+-----+------------------------+-------------------+
+5 rows in set (0.05 sec)
+
+
+INSERT INTO EMPLOYEE VALUE('EMP100','SUMIT SAHA','DEP001','GRADUATE',20);
+INSERT INTO EMPLOYEE VALUE('EMP101','RAHUL KUNDU','DEP002','GRADUATE',22);
+INSERT INTO EMPLOYEE VALUE('EMP102','HIMANGSHU GHOSH','DEP003','HS',23);
+INSERT INTO EMPLOYEE VALUE('EMP103','HIMESH KUNDU','DEP004','MASTER',19);
+INSERT INTO EMPLOYEE VALUE('EMP104','SAJAL HALDER','DEP002','GRADUATE',25);
+INSERT INTO EMPLOYEE VALUE('EMP105','SOURAV SAHA','DEP001','GRADUATE',22);
+INSERT INTO EMPLOYEE VALUE('EMP106','HIROCK BISWAS','DEP004','HS',21);
+INSERT INTO EMPLOYEE VALUE('EMP107','ABHINABA SEN','DEP003','GRADUATE',28);
+INSERT INTO EMPLOYEE VALUE('EMP108','ABHISEKH MUKHERJEE','DEP001','MASTER',31);
+INSERT INTO EMPLOYEE VALUE('EMP109','SOUVIK SAHA','DEP003','GRADUATE',45);
+INSERT INTO EMPLOYEE VALUE('EMP110','AVIK GOSWAMI','DEP002','HS',26);
+
+mysql> select * from employee;
++--------+--------------------+--------+---------------+------+
+| Eid    | Name               | Depid  | Qualification | Age  |
++--------+--------------------+--------+---------------+------+
+| EMP100 | SUMIT SAHA         | DEP001 | GRADUATE      |   20 |
+| EMP101 | RAHUL KUNDU        | DEP002 | GRADUATE      |   22 |
+| EMP102 | HIMANGSHU GHOSH    | DEP003 | HS            |   23 |
+| EMP103 | HIMESH KUNDU       | DEP004 | MASTER        |   19 |
+| EMP104 | SAJAL HALDER       | DEP002 | GRADUATE      |   25 |
+| EMP105 | SOURAV SAHA        | DEP001 | GRADUATE      |   22 |
+| EMP106 | HIROCK BISWAS      | DEP004 | HS            |   21 |
+| EMP107 | ABHINABA SEN       | DEP003 | GRADUATE      |   28 |
+| EMP108 | ABHISEKH MUKHERJEE | DEP001 | MASTER        |   31 |
+| EMP109 | SOUVIK SAHA        | DEP003 | GRADUATE      |   45 |
+| EMP110 | AVIK GOSWAMI       | DEP002 | HS            |   26 |
++--------+--------------------+--------+---------------+------+
+11 rows in set (0.00 sec)
+
+
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP100',4000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP101',5000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP102',6000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP103',7000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP104',8000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP105',9000);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP106',4500);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP107',5500);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP108',6500);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP109',1500);
+INSERT INTO SALARY(Eid,Basic) VALUE('EMP110',10000);
+
+mysql> select * from salary;
++--------+----------+---------+--------+--------+
+| Eid    | Basic    | DA      | HRA    | Bonus  |
++--------+----------+---------+--------+--------+
+| EMP100 |  4000.00 | 1000.00 | 320.00 | 200.00 |
+| EMP101 |  5000.00 | 1250.00 | 400.00 | 250.00 |
+| EMP102 |  6000.00 | 1500.00 | 480.00 | 300.00 |
+| EMP103 |  7000.00 | 1750.00 | 560.00 | 350.00 |
+| EMP104 |  8000.00 | 2000.00 | 640.00 | 400.00 |
+| EMP105 |  9000.00 | 2250.00 | 720.00 | 450.00 |
+| EMP106 |  4500.00 | 1125.00 | 360.00 | 225.00 |
+| EMP107 |  5500.00 | 1375.00 | 440.00 | 275.00 |
+| EMP108 |  6500.00 | 1625.00 | 520.00 | 325.00 |
+| EMP109 |  1500.00 |  375.00 | 120.00 |  75.00 |
+| EMP110 | 10000.00 | 2500.00 | 800.00 | 500.00 |
++--------+----------+---------+--------+--------+
+11 rows in set (0.00 sec)
+
+QUERY 1:
+
+mysql> select Depid "DEPARTMENT ID",count(Eid) "NO. OF EMPLOYEE" from employee group by Depid;
++---------------+-----------------+
+| DEPARTMENT ID | NO. OF EMPLOYEE |
++---------------+-----------------+
+| DEP001        |               3 |
+| DEP002        |               3 |
+| DEP003        |               3 |
+| DEP004        |               2 |
++---------------+-----------------+
+4 rows in set (0.00 sec)
+
+QUERY 2:
+
+mysql> select name from employee where name like 'H%';
++-----------------+
+| name            |
++-----------------+
+| HIMANGSHU GHOSH |
+| HIMESH KUNDU    |
+| HIROCK BISWAS   |
++-----------------+
+3 rows in set (0.00 sec)
+
+QUERY 3,4:
+
+alter table salary add Total_Salary decimal(20,2) default(Basic+DA+HRA+Bonus)not null;
+
+mysql> select * from salary;
++--------+----------+---------+--------+--------+--------------+
+| Eid    | Basic    | DA      | HRA    | Bonus  | Total_Salary |
++--------+----------+---------+--------+--------+--------------+
+| EMP100 |  4000.00 | 1000.00 | 320.00 | 200.00 |      5520.00 |
+| EMP101 |  5000.00 | 1250.00 | 400.00 | 250.00 |      6900.00 |
+| EMP102 |  6000.00 | 1500.00 | 480.00 | 300.00 |      8280.00 |
+| EMP103 |  7000.00 | 1750.00 | 560.00 | 350.00 |      9660.00 |
+| EMP104 |  8000.00 | 2000.00 | 640.00 | 400.00 |     11040.00 |
+| EMP105 |  9000.00 | 2250.00 | 720.00 | 450.00 |     12420.00 |
+| EMP106 |  4500.00 | 1125.00 | 360.00 | 225.00 |      6210.00 |
+| EMP107 |  5500.00 | 1375.00 | 440.00 | 275.00 |      7590.00 |
+| EMP108 |  6500.00 | 1625.00 | 520.00 | 325.00 |      8970.00 |
+| EMP109 |  1500.00 |  375.00 | 120.00 |  75.00 |      2070.00 |
+| EMP110 | 10000.00 | 2500.00 | 800.00 | 500.00 |     13800.00 |
++--------+----------+---------+--------+--------+--------------+
+11 rows in set (0.00 sec)
+
