@@ -1,0 +1,13 @@
+ create table department
+   (
+   Depid varchar(6) primary key check(Depid like 'Dep%'),
+   Dep_desc varchar(20) NOT NULL,
+   hod varchar(6),
+   location varchar(20)
+   );
+
+insert into department values('DEP001','Administration','EMP100','Kolkata');
+insert into department values('DEP002','Sales','EMP104','Howrah');
+insert into department values('DEP003','IT','EMP107','Kolkata');
+insert into department values('DEP004','Marketing','EMP106','Hooghly');
+

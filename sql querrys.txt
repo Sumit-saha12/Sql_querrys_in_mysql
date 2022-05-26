@@ -1,0 +1,31 @@
+			  SQL
+
+1.  create table
+2.  all type of primary key
+3.  not null
+4.  check
+5.  where use
+6.  insert value
+7.  specific details
+8.  desc and asc order
+9.  between
+10. city=kolkata and pune
+11. city in
+12. city not in
+13. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
